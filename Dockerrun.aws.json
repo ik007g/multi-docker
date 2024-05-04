@@ -1,0 +1,36 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+          "name": "client",
+          "image": "rocky855/multi-client",
+          "hostname": "client",
+          "essential": false 
+        },
+        {
+            "name": "server",
+            "image": "rocky855/multi-server",
+            "hostname": "api",
+            "essential": false  
+        },
+        {
+            "name": "worker",
+            "image": "rocky855/multi-worker",
+            "hostname": "worker",
+            "essential": false 
+        },
+        {
+            "name": "nginx",
+            "image": "rocky855/multi-nginx",
+            "hostname": "worker",
+            "essential": true,
+            "portMappings": [
+            {
+                "hostPort": 80,
+                "containerPort": 80
+            }
+          ],
+            "links": ["client", "server"]
+        }
+    ]
+}
