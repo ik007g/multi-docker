@@ -35,7 +35,7 @@ const redis = require('redis');
 const redisClient = redis.createClient({
   host: keys.redisHost,
   port: keys.redisPort,
-  retry_strategy: () => 1000,
+  retry_strategy: () => 1000
 });
 const redisPublisher = redisClient.duplicate();
 
@@ -65,7 +65,7 @@ app.post('/values', async (req, res) => {
   }
 
   redisClient.hset('values', index, 'Nothing yet!');
-  redisPublisher.publish('insert', index);
+  redisPublisher.publish('insert', index);  //wake up worker process
   pgClient.query('INSERT INTO values(number) VALUES($1)', [index]);
 
   res.send({ working: true });

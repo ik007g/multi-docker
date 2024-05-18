@@ -24,6 +24,7 @@ services:
       - PGPORT=5432
     depends_on:
       - postgres  
+      - redis
 
   worker:
     build:
@@ -35,7 +36,8 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-
+    depends_on:
+      - redis
   client:
     build: 
       dockerfile: Dockerfile.dev
@@ -45,6 +47,8 @@ services:
       - ./client:/app  
     environment:
       - WDS_SOCKET_PORT=0  
+    depends_on:
+      - api
 
   nginx:
     restart: always
